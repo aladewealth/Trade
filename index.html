@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="dark">
+    <meta name="theme-color" content="#0b0d10">
+    <meta name="description" content="Calculate crypto profit, loss, and ROI from an entry price, exit price, and investment. Runs entirely in the browser.">
+    <title>Trade — Profit &amp; Loss</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2313171c'/%3E%3Crect x='8' y='17' width='6' height='7' rx='1.2' fill='%23e4c36a'/%3E%3Crect x='18' y='8' width='6' height='16' rx='1.2' fill='%233ee0a0'/%3E%3C/svg%3E">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="shell">
+      <header class="top">
+        <div class="brand">
+          <svg class="mark" viewBox="0 0 32 32" width="36" height="36" aria-hidden="true">
+            <rect x="0.75" y="0.75" width="30.5" height="30.5" rx="8" fill="none" stroke="currentColor" stroke-width="1.25" opacity="0.45"></rect>
+            <rect x="8" y="17" width="6" height="7" rx="1.2" fill="#e4c36a"></rect>
+            <rect x="18" y="8" width="6" height="16" rx="1.2" fill="#3ee0a0"></rect>
+          </svg>
+          <div>
+            <p class="product">Trade</p>
+            <h1>Profit &amp; loss</h1>
+          </div>
+        </div>
+        <p class="lede">Price a crypto position from entry to exit. Profit, loss, and ROI update as you type.</p>
+      </header>
+
+      <div class="board" id="board" data-state="empty">
+        <section class="position" aria-labelledby="position-heading">
+          <h2 id="position-heading" class="section-label">Position</h2>
+          <form id="form" autocomplete="off" novalidate>
+            <div class="fields">
+              <div class="control">
+                <label for="entry">Entry price (USD)</label>
+                <p class="hint" id="entry-hint">Price of one coin when you opened.</p>
+                <div class="field">
+                  <span class="prefix" aria-hidden="true">$</span>
+                  <input id="entry" type="text" inputmode="decimal" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="0.00" aria-describedby="entry-hint" enterkeyhint="next" maxlength="32">
+                </div>
+              </div>
+
+              <div class="control">
+                <label for="exit">Exit price (USD)</label>
+                <p class="hint" id="exit-hint">Price of one coin when you close.</p>
+                <div class="field">
+                  <span class="prefix" aria-hidden="true">$</span>
+                  <input id="exit" type="text" inputmode="decimal" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="0.00" aria-describedby="exit-hint" enterkeyhint="next" maxlength="32">
+                </div>
+              </div>
+
+              <div class="control">
+                <label for="amount">Investment amount (USD)</label>
+                <p class="hint" id="amount-hint">Capital put into the position.</p>
+                <div class="field">
+                  <span class="prefix" aria-hidden="true">$</span>
+                  <input id="amount" type="text" inputmode="decimal" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="0.00" aria-describedby="amount-hint" enterkeyhint="done" maxlength="32">
+                </div>
+              </div>
+            </div>
+
+            <p class="error" id="error" role="alert"></p>
+
+            <div class="actions">
+              <button type="button" class="reset" id="reset" aria-keyshortcuts="Escape" disabled>
+                <svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true">
+                  <path d="M13.4 8A5.4 5.4 0 1 1 11.7 4.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+                  <path d="M13.6 2.7v2.8h-2.8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+                <span>Reset</span>
+                <kbd>Esc</kbd>
+              </button>
+            </div>
+          </form>
+        </section>
+
+        <section class="hero" aria-labelledby="status">
+          <p class="status" id="status">Awaiting position</p>
+          <p class="pnl" id="pnl">—</p>
+          <p class="roi-line">
+            <span class="roi-kicker">ROI</span>
+            <span class="roi" id="roi">—</span>
+          </p>
+        </section>
+
+        <section class="detail" aria-label="Position breakdown">
+          <dl class="metrics">
+            <div>
+              <dt>Exit value</dt>
+              <dd id="exit-value">—</dd>
+            </div>
+            <div>
+              <dt>Position size</dt>
+              <dd id="size">—</dd>
+            </div>
+          </dl>
+          <p class="formula">
+            <span>P&amp;L = investment × (exit − entry) ÷ entry.</span>
+            <span>ROI = P&amp;L ÷ investment.</span>
+          </p>
+        </section>
+      </div>
+
+      <p class="footnote">Calculated in your browser. Nothing is stored or sent.</p>
+    </main>
+
+    <p id="live" class="sr-only" aria-live="polite"></p>
+    <noscript>
+      <p class="noscript">Turn on JavaScript to calculate profit and loss. The math still stays on this device.</p>
+    </noscript>
+    <script src="calc.js" defer></script>
+    <script src="app.js" defer></script>
+  </body>
+</html>
